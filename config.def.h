@@ -8,7 +8,7 @@ static unsigned int gappiv    = 10;       /* vert inner gap between windows */
 static unsigned int gappoh    = 10;       /* horiz outer gap between windows and screen edge */
 static unsigned int gappov    = 30;       /* vert outer gap between windows and screen edge */
 static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
+static int smartgaps          = 1;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static const char dmenufont[]       = "monospace:size=10";
@@ -50,23 +50,24 @@ static const Rule rules[] = {
 static float mfact     = 0.55; /* factor of master area size [0.05..0.95] */
 static int nmaster     = 1;    /* number of clients in master area */
 static int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
-
 #define FORCE_VSPLIT 1  /* nrowgrid layout: force two clients to always split vertically */
 #include "vanitygaps.c"
-
 static const Layout layouts[] = {
 	/* symbol     arrange function */
-	{ "[]=",      tile },    /* first entry is default */
-	{ "[M]",      monocle },
-	{ "[@]",      spiral },
-	{ "[\\]",     dwindle },
-	{ "H[]",      deck },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
-	{ "|M|",      centeredmaster },
-	{ ">M>",      centeredfloatingmaster },
-	{ "><>",      NULL },    /* no layout function means floating behavior */
-	{ NULL,       NULL },
+ 	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
+	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
+
+	{ "[@]",	spiral },		/* Fibonacci spiral */
+	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
+
+    { "H[]",    deck },         /* Master on left, slaves in monocle-like mode on right */
+ 	{ "[M]",	monocle },		/* All windows on top of eachother */
+
+	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
+	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
+
+	{ "><>",	NULL },			/* no layout function means floating behavior */
+    { NULL,     NULL }
 };
 
 /* key definitions */
@@ -107,13 +108,11 @@ ResourcePref resources[] = {
 
 #include <X11/XF86keysym.h>
 #include "movestack.c"
-
 static Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
-	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
@@ -123,37 +122,29 @@ static Key keys[] = {
 	{ MODKEY,                       XK_l,      setmfact,       {.f = +0.05} },
 	{ MODKEY|ShiftMask,             XK_j,      movestack,      {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
-	{ MODKEY,                       XK_Tab,    view,           {0} },
 
-	/* { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_o,      incrogaps,      {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_6,      incrihgaps,     {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_7,      incrivgaps,     {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_8,      incrohgaps,     {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } }, */
-	/* { MODKEY|Mod4Mask,              XK_0,      togglegaps,     {0} }, */
-	/* { MODKEY|Mod4Mask|ShiftMask,    XK_0,      defaultgaps,    {0} }, */
-
+	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
+	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 
     /* layouts */
-	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
-	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
-	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
-	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
-	{ MODKEY,                       XK_space,  setlayout,      {0} },
+	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
+	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} }, /* dwindle */
+	{ MODKEY,			            XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
+	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[5]} }, /* monocle */
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[6]} }, /* centeredmaster */
+	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
 
 	{ MODKEY,                       XK_space,  zoom,           {0} },
+	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
+	{ MODKEY,             			XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
     /* monitor */
@@ -173,6 +164,23 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioStop,		    spawn,		SHCMD("playerctl stop") },
     { 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("xbacklight -inc 15") },
 	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("xbacklight -dec 15") },
+
+	/* { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_i,      incrigaps,      {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_i,      incrigaps,      {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_o,      incrogaps,      {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_o,      incrogaps,      {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_6,      incrihgaps,     {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_6,      incrihgaps,     {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_7,      incrivgaps,     {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_7,      incrivgaps,     {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_8,      incrohgaps,     {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } }, */
+	/* { MODKEY|Mod4Mask,              XK_0,      togglegaps,     {0} }, */
+	/* { MODKEY|Mod4Mask|ShiftMask,    XK_0,      defaultgaps,    {0} }, */
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
