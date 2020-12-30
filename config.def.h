@@ -58,6 +58,7 @@ static const Layout layouts[] = {
 	{ "===",      bstackhoriz },
 	{ "|M|",      centeredmaster },
 	{ ">M>",      centeredfloatingmaster },
+	{ NULL,       NULL },
 };
 
 /* key definitions */
