@@ -2016,6 +2016,7 @@ setup(void)
 	grabkeys();
 	focus(NULL);
 	setupepoll();
+    spawnbar();
 }
 
 void
