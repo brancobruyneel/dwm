@@ -56,6 +56,8 @@ static const Layout layouts[] = {
  	{ "[\\]",      dwindle },
 	{ "TTT",      bstack },
 	{ "===",      bstackhoriz },
+	{ "|M|",      centeredmaster },
+	{ ">M>",      centeredfloatingmaster },
 };
 
 /* key definitions */
