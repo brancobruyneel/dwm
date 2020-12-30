@@ -1,0 +1,4 @@
+*.diff
+*.o
+config.h
+dwm
