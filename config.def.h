@@ -34,6 +34,9 @@ static char *colors[][3] = {
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
+/* Xresources file location */
+static const char *xres = "$HOME/.Xresources";
+
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "", "", "8", "9" };
 
