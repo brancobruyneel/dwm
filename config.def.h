@@ -13,7 +13,6 @@ static int showbar                  = 1;        /* 0 means no bar */
 static int topbar                   = 1;        /* 0 means bottom bar */
 static const int usealtbar          = 1;        /* 1 means use non-dwm status bar */
 static const char *altbarclass      = "Polybar";     /* Alternate bar class name */
-static const char *altbarcmd        = "$HOME/.config/polybar/launch.sh"; /* Alternate bar launch command */
 static const char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { 
     "Ubuntu Mono:style=bold:size=12",
@@ -34,9 +33,6 @@ static char *colors[][3] = {
        [SchemeSel]  = { selfgcolor,  selbgcolor,  selbordercolor  },
 };
 
-/* Xresources file location */
-static const char *xres = "$HOME/.Xresources";
-
 /* tagging */
 static const char *tags[] = { "", "", "", "", "", "", "", "8", "9" };
 
@@ -45,11 +41,14 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance  title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Gimp",       NULL,     NULL,           0,         1,          0,           0,        -1 },
-	{ "Firefox",    NULL,     NULL,           1 << 8,    0,          0,          -1,        -1 },
-	{ "Alacritty",  NULL,     NULL,           0,         0,          1,           0,        -1 },
-	{ NULL,         NULL,     "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
+	/* class        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "Alacritty",  NULL,           NULL,           0,         0,          1,           0,        -1 },
+	{ "firefox",    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
+	{ "Postman",    NULL,           NULL,           1 << 2,    0,          1,           0,        -1 },
+	{ "Gimp",       NULL,           NULL,           1 << 2,    1,          0,           0,        -1 },
+	{ "discord",    NULL,           NULL,           1 << 4,    0,          1,           0,        -1 },
+	{ "Spotify",    "spotify",      NULL,           1 << 5,    0,          1,           0,        -1 },
+	{ NULL,         NULL,           "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
 /* layout(s) */
@@ -139,7 +138,6 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
-
 
     /* media controls */
 	{ 0, XF86XK_AudioMute,		    spawn,      SHCMD("pamixer -t") },
