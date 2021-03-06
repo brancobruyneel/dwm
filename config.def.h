@@ -19,6 +19,7 @@ static const char *fonts[]          = {
     "Font Awesome 5 Brands:size=10",
     "Font Awesome 5 Free Solid:size=10",
     "Font Awesome 5 Free Regular:size=10",
+		"JoyPixels:pixelsize=14:antialias=true:autohint=true",
 };
 
 static char normbgcolor[]           = "#222222";
@@ -118,7 +119,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
 	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} }, /* dwindle */
-	{ MODKEY,			            XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
+	{ MODKEY,			            			XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
 	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[5]} }, /* monocle */
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[6]} }, /* centeredmaster */
 	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
@@ -138,6 +139,9 @@ static Key keys[] = {
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
+
+	/* flameshot */
+	{ MODKEY|ShiftMask,		XK_s, spawn,		SHCMD("flameshot gui") },
 
     /* media controls */
 	{ 0, XF86XK_AudioMute,		    spawn,      SHCMD("pamixer -t") },
