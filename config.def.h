@@ -1,6 +1,5 @@
 /* See LICENSE file for copyright and license details. */
 
-/* appearance */
 static unsigned int borderpx        = 1;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
 static unsigned int gappih          = 15;       /* horiz inner gap between windows */
@@ -43,12 +42,12 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "Alacritty",  NULL,           NULL,           0,         0,          1,           0,        -1 },
+	{ "St",  				NULL,           NULL,           0,         0,          1,           0,        -1 },
 	{ "firefox",    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
-	{ "Postman",    NULL,           NULL,           1 << 2,    0,          1,           0,        -1 },
-	{ "Gimp",       NULL,           NULL,           1 << 2,    1,          0,           0,        -1 },
-	{ "discord",    NULL,           NULL,           1 << 4,    0,          1,           0,        -1 },
-	{ "Spotify",    "spotify",      NULL,           1 << 5,    0,          1,           0,        -1 },
+	{ "Postman",    NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
+	{ "Gimp",       NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
+	{ "discord",    NULL,           NULL,           1 << 4,    0,          0,           0,        -1 },
+	{ "Pavucontrol",NULL,           NULL,						0,				 1,          0,           0,        -1 },
 	{ NULL,         NULL,           "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -141,7 +140,10 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 
 	/* flameshot */
-	{ MODKEY|ShiftMask,		XK_s, spawn,		SHCMD("flameshot gui") },
+	{ MODKEY|ShiftMask,							XK_s, spawn,		SHCMD("flameshot gui") },
+	{ MODKEY,												XK_w, spawn,		SHCMD("$BROWSER") },
+
+
 
     /* media controls */
 	{ 0, XF86XK_AudioMute,		    spawn,      SHCMD("pamixer -t") },
