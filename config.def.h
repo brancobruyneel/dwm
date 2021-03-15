@@ -42,12 +42,13 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "St",  				NULL,           NULL,           0,         0,          1,           0,        -1 },
+	{ "alacritty",  				NULL,           NULL,           0,         0,          1,           0,        -1 },
 	{ "firefox",    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
 	{ "Postman",    NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
 	{ "Gimp",       NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
 	{ "discord",    NULL,           NULL,           1 << 4,    0,          0,           0,        -1 },
 	{ "Pavucontrol",NULL,           NULL,						0,				 1,          0,           0,        -1 },
+	{ "matplotlib", NULL,           NULL,						0,				 1,          0,           0,        -1 },
 	{ NULL,         NULL,           "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -65,14 +66,14 @@ static const Layout layouts[] = {
 	{ "[@]",	spiral },		/* Fibonacci spiral */
 	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
 
-    { "H[]",    deck },         /* Master on left, slaves in monocle-like mode on right */
+  { "H[]",  deck },         /* Master on left, slaves in monocle-like mode on right */
  	{ "[M]",	monocle },		/* All windows on top of eachother */
 
 	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
 	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
 
 	{ "><>",	NULL },			/* no layout function means floating behavior */
-    { NULL,     NULL }
+  { NULL,   NULL }
 };
 
 /* key definitions */
@@ -89,7 +90,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
-static const char *termcmd[]  = { "st", NULL };
+static const char *termcmd[]  = { "alacritty", NULL };
 
 #include <X11/XF86keysym.h>
 #include "movestack.c"
@@ -113,49 +114,52 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
 	{ MODKEY|ControlMask|ShiftMask, XK_q,      quit,           {1} }, 
 
-    /* layouts */
+	/* layouts */
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
 	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
 	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} }, /* dwindle */
-	{ MODKEY,			            			XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
+	{ MODKEY,			                  XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
 	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[5]} }, /* monocle */
 	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[6]} }, /* centeredmaster */
 	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
 
 	{ MODKEY,                       XK_space,  zoom,           {0} },
-	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,		        XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
-	{ MODKEY,             			XK_f,      togglefullscr,  {0} },
+	{ MODKEY,             		      XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY,                       XK_Tab,    view,           {0} },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
 
-    /* monitor */
+	/* monitor */
 	{ MODKEY,                       XK_comma,  focusmon,       {.i = -1 } },
 	{ MODKEY,                       XK_period, focusmon,       {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_comma,  tagmon,         {.i = -1 } },
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 
 	/* flameshot */
-	{ MODKEY|ShiftMask,							XK_s, spawn,		SHCMD("flameshot gui") },
-	{ MODKEY,												XK_w, spawn,		SHCMD("$BROWSER") },
+	{ MODKEY|ShiftMask,		          XK_s,	     spawn,	         SHCMD("flameshot gui") },
+	{ MODKEY,			                  XK_w, 	   spawn,	         SHCMD("$BROWSER") },
+
+  /* utils */
+  { MODKEY,                       XK_F1,     spawn,          SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+  { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("rofi-rbw -a copy-password -r ''") },
 
 
-
-    /* media controls */
-	{ 0, XF86XK_AudioMute,		    spawn,      SHCMD("pamixer -t") },
-	{ 0, XF86XK_AudioRaiseVolume,	spawn,		SHCMD("pamixer -i 5") },
-	{ 0, XF86XK_AudioLowerVolume,	spawn,		SHCMD("pamixer -d 5") },
-	{ 0, XF86XK_AudioPrev,		    spawn,		SHCMD("playerctl prev") },
-	{ 0, XF86XK_AudioNext,		    spawn,		SHCMD("playerctl next") },
-	{ 0, XF86XK_AudioPause,		    spawn,		SHCMD("playerctl pause") },
-	{ 0, XF86XK_AudioPlay,		    spawn,		SHCMD("playerctl play") },
-	{ 0, XF86XK_AudioStop,		    spawn,		SHCMD("playerctl stop") },
-    { 0, XF86XK_MonBrightnessUp,	spawn,		SHCMD("xbacklight -inc 15") },
-	{ 0, XF86XK_MonBrightnessDown,	spawn,		SHCMD("xbacklight -dec 15") },
+	/* media controls */
+	{ 0, XF86XK_AudioMute,		      spawn,    SHCMD("pamixer -t") },
+	{ 0, XF86XK_AudioRaiseVolume,	  spawn,		SHCMD("pamixer -i 5") },
+	{ 0, XF86XK_AudioLowerVolume,	  spawn,		SHCMD("pamixer -d 5") },
+	{ 0, XF86XK_AudioPrev,		      spawn,		SHCMD("playerctl prev") },
+	{ 0, XF86XK_AudioNext,		      spawn,		SHCMD("playerctl next") },
+	{ 0, XF86XK_AudioPause,		      spawn,		SHCMD("playerctl pause") },
+	{ 0, XF86XK_AudioPlay,		      spawn,		SHCMD("playerctl play") },
+	{ 0, XF86XK_AudioStop,		      spawn,		SHCMD("playerctl stop") },
+	{ 0, XF86XK_MonBrightnessUp,	  spawn,		SHCMD("xbacklight -inc 15") },
+	{ 0, XF86XK_MonBrightnessDown,  spawn,		SHCMD("xbacklight -dec 15") },
 
 	/* { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } }, */
@@ -171,8 +175,8 @@ static Key keys[] = {
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } }, */
-    { MODKEY,			            XK_a,	    togglegaps,	    {0} },
-	{ MODKEY|ShiftMask,		        XK_a,		defaultgaps,	{0} },
+	{ MODKEY,			XK_a,	    togglegaps,		{0} },
+	{ MODKEY|ShiftMask,		XK_a,	    defaultgaps,	{0} },
 
 	TAGKEYS(                        XK_1,                      0)
 	TAGKEYS(                        XK_2,                      1)
