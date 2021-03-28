@@ -18,7 +18,7 @@ static const char *fonts[]          = {
     "Font Awesome 5 Brands:size=10",
     "Font Awesome 5 Free Solid:size=10",
     "Font Awesome 5 Free Regular:size=10",
-		"JoyPixels:pixelsize=14:antialias=true:autohint=true",
+    "JoyPixels:pixelsize=14:antialias=true:autohint=true",
 };
 
 static char normbgcolor[]           = "#222222";
@@ -67,14 +67,14 @@ static const Layout layouts[] = {
 	{ "[@]",	spiral },		/* Fibonacci spiral */
 	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
 
-  { "H[]",  deck },         /* Master on left, slaves in monocle-like mode on right */
+    { "H[]",  deck },         /* Master on left, slaves in monocle-like mode on right */
  	{ "[M]",	monocle },		/* All windows on top of eachother */
 
 	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
 	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
 
 	{ "><>",	NULL },			/* no layout function means floating behavior */
-  { NULL,   NULL }
+    { NULL,   NULL }
 };
 
 /* key definitions */
@@ -127,7 +127,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
 
 	{ MODKEY,                       XK_space,  zoom,           {0} },
-	{ MODKEY|ControlMask,		        XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,             		      XK_f,      togglefullscr,  {0} },
@@ -142,16 +142,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 
 	/* flameshot */
-	{ MODKEY|ShiftMask,		          XK_s,	     spawn,	         SHCMD("flameshot gui") },
-	{ MODKEY,			                  XK_w, 	   spawn,	         SHCMD("$BROWSER") },
+	{ MODKEY|ShiftMask,		        XK_s,      spawn,	         SHCMD("flameshot gui") },
+	{ MODKEY,			            XK_w, 	   spawn,	         SHCMD("$BROWSER") },
 
   /* utils */
-  { MODKEY,                       XK_F1,     spawn,          SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
-  { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("rofi-rbw -a copy-password -r ''") },
+    { MODKEY,                       XK_F1,     spawn,          SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+    { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("rofi-rbw -a copy-password -r ''") },
 
 
 	/* media controls */
-	{ 0, XF86XK_AudioMute,		      spawn,    SHCMD("pamixer -t") },
+	{ 0, XF86XK_AudioMute,		      spawn,        SHCMD("pamixer -t") },
 	{ 0, XF86XK_AudioRaiseVolume,	  spawn,		SHCMD("pamixer -i 5") },
 	{ 0, XF86XK_AudioLowerVolume,	  spawn,		SHCMD("pamixer -d 5") },
 	{ 0, XF86XK_AudioPrev,		      spawn,		SHCMD("playerctl prev") },
@@ -160,7 +160,7 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioPlay,		      spawn,		SHCMD("playerctl play") },
 	{ 0, XF86XK_AudioStop,		      spawn,		SHCMD("playerctl stop") },
 	{ 0, XF86XK_MonBrightnessUp,	  spawn,		SHCMD("xbacklight -inc 15") },
-	{ 0, XF86XK_MonBrightnessDown,  spawn,		SHCMD("xbacklight -dec 15") },
+	{ 0, XF86XK_MonBrightnessDown,    spawn,		SHCMD("xbacklight -dec 15") },
 
 	/* { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } }, */
@@ -176,7 +176,7 @@ static Key keys[] = {
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } }, */
-	{ MODKEY,			XK_a,	    togglegaps,		{0} },
+	{ MODKEY,			    XK_a,	    togglegaps,		{0} },
 	{ MODKEY|ShiftMask,		XK_a,	    defaultgaps,	{0} },
 
 	TAGKEYS(                        XK_1,                      0)
