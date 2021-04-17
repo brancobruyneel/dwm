@@ -1,6 +1,6 @@
 /* See LICENSE file for copyright and license details. */
 
-static unsigned int borderpx        = 1;        /* border pixel of windows */
+static unsigned int borderpx        = 2;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
 static unsigned int gappih          = 15;       /* horiz inner gap between windows */
 static unsigned int gappiv          = 10;       /* vert inner gap between windows */
@@ -42,7 +42,7 @@ static const Rule rules[] = {
 	 *	WM_NAME(STRING) = title
 	 */
 	/* class        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "alacritty",  NULL,           NULL,           0,         0,          1,           0,        -1 },
+	{ "st",  NULL,           NULL,           0,         0,          1,           0,        -1 },
 	{ "firefox",    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
 	{ "Postman",    NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
 	{ "Gimp",       NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
@@ -91,7 +91,7 @@ static const Layout layouts[] = {
 /* commands */
 static char dmenumon[2] = "0"; /* component of dmenucmd, manipulated in spawn() */
 static const char *dmenucmd[] = { "rofi", "-show", "drun", NULL };
-static const char *termcmd[]  = { "alacritty", NULL };
+static const char *termcmd[]  = { "st", NULL };
 
 #include <X11/XF86keysym.h>
 #include "movestack.c"
