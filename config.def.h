@@ -41,15 +41,17 @@ static const Rule rules[] = {
 	 *	WM_CLASS(STRING) = instance, class
 	 *	WM_NAME(STRING) = title
 	 */
-	/* class        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
-	{ "st",  NULL,           NULL,           0,         0,          1,           0,        -1 },
-	{ "firefox",    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
-	{ "Postman",    NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
-	{ "Gimp",       NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
-	{ "discord",    NULL,           NULL,           1 << 4,    0,          0,           0,        -1 },
-	{ "Pavucontrol",NULL,           NULL,						0,				 1,          0,           0,        -1 },
-	{ "matplotlib", NULL,           NULL,						0,				 1,          0,           0,        -1 },
-	{ "Tk",         NULL,           NULL,						0,				 1,          0,           0,        -1 },
+	/* class                        instance        title           tags mask  isfloating  isterminal  noswallow  monitor */
+	{ "st",                         NULL,           NULL,           0,         0,          1,           0,        -1 },
+	{ "firefox",                    NULL,           NULL,           1 << 1,    0,          0,          -1,        -1 },
+	{ "Postman",                    NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
+	{ "Gimp",                       NULL,           NULL,           1 << 2,    0,          0,           0,        -1 },
+	{ "discord",                    NULL,           NULL,           1 << 4,    0,          0,           0,        -1 },
+	{ "Pavucontrol",                NULL,           NULL,						0,				 1,          0,           0,        -1 },
+	{ "matplotlib",                 NULL,           NULL,						0,				 1,          0,           0,        -1 },
+	{ "Tk",                         NULL,           NULL,						0,				 1,          0,           0,        -1 },
+	{ "microsoft teams - preview",  NULL,           NULL,						1 << 3,		 1,          0,           0,        -1 },
+	{ "libreoffice",                NULL,           NULL,						1 << 3,		 1,          0,           0,        -1 },
 	{ NULL,         NULL,           "Event Tester", 0,         0,          0,           1,        -1 }, /* xev */
 };
 
@@ -127,7 +129,7 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
 
 	{ MODKEY,                       XK_space,  zoom,           {0} },
-	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
+	{ MODKEY|ControlMask,		        XK_comma,  cyclelayout,    {.i = -1 } },
 	{ MODKEY|ControlMask,           XK_period, cyclelayout,    {.i = +1 } },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY,             		      XK_f,      togglefullscr,  {0} },
@@ -142,16 +144,16 @@ static Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_period, tagmon,         {.i = +1 } },
 
 	/* flameshot */
-	{ MODKEY|ShiftMask,		        XK_s,      spawn,	         SHCMD("flameshot gui") },
-	{ MODKEY,			            XK_w, 	   spawn,	         SHCMD("$BROWSER") },
+	{ MODKEY|ShiftMask,		          XK_s,      spawn,	         SHCMD("flameshot gui") },
+	{ MODKEY,			                  XK_w, 	   spawn,	         SHCMD("$BROWSER") },
 
   /* utils */
-    { MODKEY,                       XK_F1,     spawn,          SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
-    { MODKEY|ShiftMask,             XK_p,      spawn,          SHCMD("rofi-rbw -a copy-password -r ''") },
+    { MODKEY,                     XK_F1,     spawn,          SHCMD("feh --bg-scale --randomize ~/Pictures/wallpapers/*") },
+    { MODKEY|ShiftMask,           XK_p,      spawn,          SHCMD("rofi-rbw -a copy-password -r ''") },
 
 
 	/* media controls */
-	{ 0, XF86XK_AudioMute,		      spawn,        SHCMD("pamixer -t") },
+	{ 0, XF86XK_AudioMute,		      spawn,    SHCMD("pamixer -t") },
 	{ 0, XF86XK_AudioRaiseVolume,	  spawn,		SHCMD("pamixer -i 5") },
 	{ 0, XF86XK_AudioLowerVolume,	  spawn,		SHCMD("pamixer -d 5") },
 	{ 0, XF86XK_AudioPrev,		      spawn,		SHCMD("playerctl prev") },
@@ -160,7 +162,7 @@ static Key keys[] = {
 	{ 0, XF86XK_AudioPlay,		      spawn,		SHCMD("playerctl play") },
 	{ 0, XF86XK_AudioStop,		      spawn,		SHCMD("playerctl stop") },
 	{ 0, XF86XK_MonBrightnessUp,	  spawn,		SHCMD("xbacklight -inc 15") },
-	{ 0, XF86XK_MonBrightnessDown,    spawn,		SHCMD("xbacklight -dec 15") },
+	{ 0, XF86XK_MonBrightnessDown,  spawn,	  SHCMD("xbacklight -dec 15") },
 
 	/* { MODKEY|Mod4Mask,              XK_u,      incrgaps,       {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_u,      incrgaps,       {.i = -1 } }, */
@@ -176,7 +178,7 @@ static Key keys[] = {
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_8,      incrohgaps,     {.i = -1 } }, */
 	/* { MODKEY|Mod4Mask,              XK_9,      incrovgaps,     {.i = +1 } }, */
 	/* { MODKEY|Mod4Mask|ShiftMask,    XK_9,      incrovgaps,     {.i = -1 } }, */
-	{ MODKEY,			    XK_a,	    togglegaps,		{0} },
+	{ MODKEY,			        XK_a,	    togglegaps,		{0} },
 	{ MODKEY|ShiftMask,		XK_a,	    defaultgaps,	{0} },
 
 	TAGKEYS(                        XK_1,                      0)
