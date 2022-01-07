@@ -197,7 +197,7 @@ static void detachstack(Client *c);
 static Monitor *dirtomon(int dir);
 static void drawbar(Monitor *m);
 static void drawbars(void);
-static int drawstatusbar(Monitor *m, int bh, char* text);
+// static int drawstatusbar(Monitor *m, int bh, char* text);
 static void enternotify(XEvent *e);
 static void expose(XEvent *e);
 static void focus(Client *c);
@@ -993,9 +993,12 @@ drawbar(Monitor *m)
 	Client *c;
 
 	/* draw status first so it can be overdrawn by tags later */
-	if (m == selmon) { /* status is only drawn on selected monitor */
-		tw = m->ww - drawstatusbar(m, bh, stext);
-	}
+	// if (m == selmon) { /* status is only drawn on selected monitor */
+	// 	tw = m->ww - drawstatusbar(m, bh, stext);
+	// }
+	char *mstext;
+	char *rstext;
+	int msx;
 
 	for (c = m->clients; c; c = c->next) {
 		occ |= c->tags == 255 ? 0 : c->tags;
@@ -1020,7 +1023,19 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - x) > bh) {
 			drw_setscheme(drw, scheme[SchemeNorm]);
 			drw_rect(drw, x, 0, w, bh, 1, 1);
+    }
+
+	if (m == selmon) { /* status is only drawn on selected monitor */
+		rstext = strdup(stext);
+		if (splitstatus) {
+			mstext = strsep(&rstext, splitdelim);
+			msx = (m->ww - TEXTW(mstext) + lrpad) / 2; /* x position of middle status text */
+			drw_text(drw, msx, 0, TEXTW(mstext) - lrpad, bh, 0, mstext, 0);
+		}
+		tw = TEXTW(rstext) - lrpad + 2; /* 2px right padding */
+		drw_text(drw, m->ww - tw, 0, tw, bh, 0, rstext, 0);
 	}
+
 	drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
 

@@ -12,6 +12,8 @@ static int smartgaps          = 0;        /* 1 means no outer gap when there is 
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
 static const int user_bh            = 48;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static const int splitstatus        = 1;        /* 1 for split status items */
+static const char *splitdelim        = ";";       /* Character used for separating status */
 static const char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { 
     "Hack:style=Bold:size=10",
