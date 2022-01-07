@@ -11,6 +11,7 @@ static int swallowfloating    = 0;        /* 1 means swallow floating windows by
 static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
 static int showbar            = 1;        /* 0 means no bar */
 static int topbar             = 1;        /* 0 means bottom bar */
+static const int user_bh            = 48;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { 
     "Hack:style=Bold:size=10",
@@ -32,7 +33,7 @@ static char *colors[][3] = {
 };
 
 /* tagging */
-static const char *tags[] = { "", "", "", "", "", "", "", "8", "9" };
+static const char *tags[] = { "  ", "  ", "  ", "  ", "  ", "  ", "  ", " 8 ", " 9 " };
 
 static const Rule rules[] = {
 	/* xprop(1):
@@ -61,19 +62,19 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 #include "vanitygaps.c"
 static const Layout layouts[] = {
 	/* symbol     arrange function */
- 	{ "[]=",	tile },			/* Default: Master on left, slaves on right */
-	{ "TTT",	bstack },		/* Master on top, slaves on bottom */
+ 	{ " []= ",	tile },			/* Default: Master on left, slaves on right */
+	{ " TTT ",	bstack },		/* Master on top, slaves on bottom */
 
-	{ "[@]",	spiral },		/* Fibonacci spiral */
-	{ "[\\]",	dwindle },		/* Decreasing in size right and leftward */
+	{ " [@] ",	spiral },		/* Fibonacci spiral */
+	{ " [\\] ",	dwindle },		/* Decreasing in size right and leftward */
 
-    { "H[]",    deck },         /* Master on left, slaves in monocle-like mode on right */
- 	{ "[M]",	monocle },		/* All windows on top of eachother */
+    { " H[] ",    deck },         /* Master on left, slaves in monocle-like mode on right */
+ 	{ " [M] ",	monocle },		/* All windows on top of eachother */
 
-	{ "|M|",	centeredmaster },		/* Master in middle, slaves on sides */
-	{ ">M>",	centeredfloatingmaster },	/* Same but master floats */
+	{ " |M| ",	centeredmaster },		/* Master in middle, slaves on sides */
+	{ " >M> ",	centeredfloatingmaster },	/* Same but master floats */
 
-	{ "><>",	NULL },			/* no layout function means floating behavior */
+	{ " ><> ",	NULL },			/* no layout function means floating behavior */
     { NULL,     NULL }
 };
 
