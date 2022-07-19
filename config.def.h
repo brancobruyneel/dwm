@@ -1,25 +1,25 @@
 /* See LICENSE file for copyright and license details. */
 
 /* appearance */
-static unsigned int borderpx  = 1;        /* border pixel of windows */
+static unsigned int borderpx        = 1;        /* border pixel of windows */
 static unsigned int snap            = 32;       /* snap pixel */
 static unsigned int gappih          = 15;       /* horiz inner gap between windows */
 static unsigned int gappiv          = 10;       /* vert inner gap between windows */
 static unsigned int gappoh          = 10;       /* horiz outer gap between windows and screen edge */
 static unsigned int gappov          = 15;       /* vert outer gap between windows and screen edge */
-static int swallowfloating    = 0;        /* 1 means swallow floating windows by default */
-static int smartgaps          = 0;        /* 1 means no outer gap when there is only one window */
-static int showbar            = 1;        /* 0 means no bar */
-static int topbar             = 1;        /* 0 means bottom bar */
-static const int user_bh            = 48;        /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
+static int swallowfloating          = 0;        /* 1 means swallow floating windows by default */
+static int smartgaps                = 0;        /* 1 means no outer gap when there is only one window */
+static int showbar                  = 1;        /* 0 means no bar */
+static int topbar                   = 1;        /* 0 means bottom bar */
+static const int user_bh            = 48;       /* 0 means that dwm will calculate bar height, >= 1 means dwm will user_bh as bar height */
 static const int splitstatus        = 1;        /* 1 for split status items */
-static const char *splitdelim        = ";";       /* Character used for separating status */
+static const char *splitdelim       = ";";      /* Character used for separating status */
 static const char dmenufont[]       = "monospace:size=10";
 static const char *fonts[]          = { 
     "Hack:style=Bold:size=10",
-    "Font Awesome 5 Brands:size=10",
-    "Font Awesome 5 Free Solid:size=10",
-    "Font Awesome 5 Free Regular:size=10",
+    "Font Awesome 6 Brands:size=10",
+    "Font Awesome 6 Free Solid:size=10",
+    "Font Awesome 6 Free Regular:size=10",
 };
 
 static char normbgcolor[]           = "#222222";
@@ -65,6 +65,7 @@ static int resizehints = 1;    /* 1 means respect size hints in tiled resizals *
 static const Layout layouts[] = {
 	/* symbol     arrange function */
  	{ " []= ",	tile },			/* Default: Master on left, slaves on right */
+	{ " === ",	bstackhoriz },  /* Master on top, slaves on bottom horizontally */
 	{ " TTT ",	bstack },		/* Master on top, slaves on bottom */
 
 	{ " [@] ",	spiral },		/* Fibonacci spiral */
@@ -140,13 +141,14 @@ static Key keys[] = {
     /* layouts */
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} }, /* tile */
 	{ MODKEY|ShiftMask,             XK_t,      setlayout,      {.v = &layouts[1]} }, /* bstack */
-	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[2]} }, /* spiral */
-	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[3]} }, /* dwindle */
-	{ MODKEY,			            XK_u,      setlayout,      {.v = &layouts[4]} }, /* deck */
-	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[5]} }, /* monocle */
-	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[6]} }, /* centeredmaster */
-	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[7]} }, /* centeredfloatingmaster */
-	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[8]} }, /* floating */
+	{ MODKEY|ControlMask,           XK_t,      setlayout,      {.v = &layouts[2]} }, /* bstack */
+	{ MODKEY,                       XK_y,      setlayout,      {.v = &layouts[3]} }, /* spiral */
+	{ MODKEY|ShiftMask,             XK_y,      setlayout,      {.v = &layouts[4]} }, /* dwindle */
+	{ MODKEY,			            XK_u,      setlayout,      {.v = &layouts[5]} }, /* deck */
+	{ MODKEY|ShiftMask,             XK_u,      setlayout,      {.v = &layouts[6]} }, /* monocle */
+	{ MODKEY,                       XK_o,      setlayout,      {.v = &layouts[7]} }, /* centeredmaster */
+	{ MODKEY|ShiftMask,             XK_o,      setlayout,      {.v = &layouts[8]} }, /* centeredfloatingmaster */
+	{ MODKEY|ShiftMask,             XK_f,      setlayout,      {.v = &layouts[9]} }, /* floating */
 
 	{ MODKEY,                       XK_space,  zoom,           {0} },
 	{ MODKEY|ControlMask,		    XK_comma,  cyclelayout,    {.i = -1 } },
